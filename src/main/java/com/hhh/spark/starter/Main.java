@@ -1,5 +1,6 @@
 package com.hhh.spark.starter;
 
+import com.hhh.spark.starter.model.NotFoundException;
 import com.hhh.spark.starter.model.SimpleTaskDAO;
 import com.hhh.spark.starter.model.Task;
 import com.hhh.spark.starter.model.TaskDAO;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static spark.Spark.before;
+import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.halt;
 import static spark.Spark.modelAndView;
@@ -87,5 +89,12 @@ public class Main
             response.redirect("/tasks");
             return null;
         });
+
+        exception(NotFoundException.class, ((exception, request, response) -> {
+            response.status(404);
+            HandlebarsTemplateEngine engine = new HandlebarsTemplateEngine();
+            String html = engine.render(new ModelAndView(null, "not-found.hbs"));
+            response.body(html);
+        }));
     }
 }
