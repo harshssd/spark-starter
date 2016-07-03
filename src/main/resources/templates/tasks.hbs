@@ -3,8 +3,10 @@
     <ul>
         {{#each tasks}}
             <li>
-                <h3>{{title}}</h3>
-                <p>{{description}}</p>
+                <form action="/tasks/{{slug}}/vote" method="post">
+                    <h3>{{title}} ( {{voteCount}} votes ) <button>Vote</button> </h3>
+                    <p>{{description}}</p>
+                </form>
             </li>
         {{/each}}
     </ul>

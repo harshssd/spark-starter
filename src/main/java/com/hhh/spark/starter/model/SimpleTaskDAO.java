@@ -28,4 +28,13 @@ public class SimpleTaskDAO implements TaskDAO
     {
         return new ArrayList<>(this.tasks);
     }
+
+    @Override
+    public Task findBySlug(String slug)
+    {
+        return tasks.stream()
+                .filter(task -> task.getSlug().equals(slug))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
+    }
 }

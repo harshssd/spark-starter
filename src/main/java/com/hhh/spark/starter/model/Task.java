@@ -1,5 +1,11 @@
 package com.hhh.spark.starter.model;
 
+import com.github.slugify.Slugify;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @Author Harsha
  *
@@ -10,12 +16,26 @@ public class Task
     private String title;
     private String description;
     private String status;
+    private String slug;
+    private Set<String> voters;
 
     public Task(String title, String description, String status)
     {
+        this.voters = new HashSet<>();
         this.title = title;
         this.description = description;
         this.status = status;
+        try {
+            Slugify slugify = new Slugify();
+            slug = slugify.slugify(title);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getSlug()
+    {
+        return slug;
     }
 
     public String getTitle()
@@ -31,6 +51,16 @@ public class Task
     public String getStatus()
     {
         return status;
+    }
+
+    public boolean addVoter(String voterUsername)
+    {
+        return voters.add(voterUsername);
+    }
+
+    public int getVoteCount()
+    {
+        return voters.size();
     }
 
     @Override

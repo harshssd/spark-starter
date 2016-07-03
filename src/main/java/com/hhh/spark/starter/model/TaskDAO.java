@@ -10,4 +10,6 @@ public interface TaskDAO
     boolean add(Task task);
 
     List<Task> findAll();
+
+    Task findBySlug(String slug);
 }

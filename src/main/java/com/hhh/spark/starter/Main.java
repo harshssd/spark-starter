@@ -74,5 +74,12 @@ public class Main
             response.redirect("/tasks");
             return null;
         }));
+
+        post("/tasks/:slug/vote", (request, response) -> {
+            Task task = taskDAO.findBySlug(request.params("slug"));
+            task.addVoter(request.attribute("username"));
+            response.redirect("/tasks");
+            return null;
+        });
     }
 }
