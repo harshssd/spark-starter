@@ -5,6 +5,7 @@ import com.hhh.spark.starter.model.SimpleTaskDAO;
 import com.hhh.spark.starter.model.Task;
 import com.hhh.spark.starter.model.TaskDAO;
 import spark.ModelAndView;
+import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
@@ -25,6 +26,9 @@ import static spark.Spark.staticFileLocation;
  */
 public class Main
 {
+
+    private static final String FLASH_MESSAGE_KEY = "flash_message";
+
     public static void main(String[] args)
     {
         staticFileLocation("/public");
@@ -41,6 +45,7 @@ public class Main
 
         before("/tasks", (request, response) -> {
             if(request.attribute("username") == null) {
+                setFlashMessage(request, "Oops!! Please sign in first!!");
                 response.redirect("/");
                 halt();
             }
@@ -49,6 +54,7 @@ public class Main
         get("/", (request, response) -> {
             Map<String, String> model = new HashMap();
             model.put("username", request.attribute("username"));
+            model.put("flashMessage", captureFlashMessage(request));
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -64,6 +70,7 @@ public class Main
         get("/tasks", (request, response) -> {
             Map<String, Object> model = new HashMap();
             model.put("tasks", taskDAO.findAll());
+            model.put("flashMessage", captureFlashMessage(request));
             return modelAndView(model, "tasks.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -85,7 +92,12 @@ public class Main
 
         post("/tasks/:slug/vote", (request, response) -> {
             Task task = taskDAO.findBySlug(request.params("slug"));
-            task.addVoter(request.attribute("username"));
+            boolean voted = task.addVoter(request.attribute("username"));
+            if(voted) {
+                setFlashMessage(request, "Thanks for your vote!");
+            } else {
+                setFlashMessage(request, "Sorry, you've already Voted!!");
+            }
             response.redirect("/tasks");
             return null;
         });
@@ -96,5 +108,26 @@ public class Main
             String html = engine.render(new ModelAndView(null, "not-found.hbs"));
             response.body(html);
         }));
+    }
+
+    private static void setFlashMessage(Request request, String message)
+    {
+        request.session().attribute(FLASH_MESSAGE_KEY, message);
+    }
+
+    private static String getFlashMessage(Request request)
+    {
+        if(request.session(false) == null) return null;
+        if(!request.session().attributes().contains(FLASH_MESSAGE_KEY)) return null;
+        return (String) request.session().attribute(FLASH_MESSAGE_KEY);
+    }
+
+    private static String captureFlashMessage(Request request)
+    {
+        String message = getFlashMessage(request);
+        if(message != null) {
+            request.session().removeAttribute(FLASH_MESSAGE_KEY);
+        }
+        return message;
     }
 }

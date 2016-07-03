@@ -7,11 +7,16 @@
         <link rel="stylesheet" href="/css/main.css">
     </head>
     <body>
+    <div class="page">
+        {{#if flashMessage}}
+            <p id="flash-message">{{flashMessage}}</p>
+        {{/if}}
 {{/block}}
-<div class="page">
+
 {{#block "content"}}{{/block}}
-</div>
+
 {{#block "footer"}}
+    </div>
     </body>
     </html>
 {{/block}}
