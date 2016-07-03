@@ -4,8 +4,7 @@
         {{#each tasks}}
             <li>
                 <form action="/tasks/{{slug}}/vote" method="post">
-                    <h3>{{title}} ( {{voteCount}} votes ) <button>Vote</button> </h3>
-                    <p>{{description}}</p>
+                    <h3><a href="/tasks/{{slug}}">{{title}}</a> ( {{voteCount}} votes ) <button>Vote</button> </h3>
                 </form>
             </li>
         {{/each}}

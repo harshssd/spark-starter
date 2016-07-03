@@ -75,6 +75,12 @@ public class Main
             return null;
         }));
 
+        get("tasks/:slug", (request, response) -> {
+            Map<String, Object> model = new HashMap();
+            model.put("task", taskDAO.findBySlug(request.params("slug")));
+            return new ModelAndView(model, "task.hbs");
+        }, new HandlebarsTemplateEngine());
+
         post("/tasks/:slug/vote", (request, response) -> {
             Task task = taskDAO.findBySlug(request.params("slug"));
             task.addVoter(request.attribute("username"));

@@ -1,0 +1,21 @@
+{{#partial "content"}}
+    <h1>{{task.title}}</h1>
+    <h2>{{task.voteCount}} Voters</h2>
+    <p>{{task.description}}</p>
+
+    <ul>
+        {{#each task.voters}}
+            <li>{{this}}</li>
+        {{/each}}
+    </ul>
+
+    <form action="/tasks/{{task.slug}}/vote" method="post">
+        <button>Vote</button>
+    </form>
+{{/partial}}
+
+{{#partial "title"}}
+    Task - {{task.title}}
+{{/partial}}
+
+{{> base.hbs}}
