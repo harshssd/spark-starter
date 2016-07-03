@@ -9,10 +9,10 @@
             </li>
         {{/each}}
     </ul>
-
+    {{#if tasks}}<hr>{{/if}}
     <form action="/tasks", method="post">
         <div>
-            <input type="text" placeholder="Enter the task title" name="title">
+            <input type="text" placeholder="Enter the Task Title" name="title">
         </div>
         <div>
             <textarea placeholder="Enter the Task Details" name="description"></textarea>
