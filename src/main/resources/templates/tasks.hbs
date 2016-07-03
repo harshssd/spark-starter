@@ -1,0 +1,23 @@
+{{#partial "content"}}
+    <h1>Tasks</h1>
+    <ul>
+        {{#each tasks}}
+            <li>
+                <h3>{{title}}</h3>
+                <p>{{description}}</p>
+            </li>
+        {{/each}}
+    </ul>
+
+    <form action="/tasks", method="post">
+        <div>
+            <input type="text" placeholder="Enter the task title" name="title">
+        </div>
+        <div>
+            <textarea placeholder="Enter the Task Details" name="description"></textarea>
+        </div>
+        <button>Submit Task</button>
+    </form>
+{{/partial}}
+
+{{> base.hbs}}

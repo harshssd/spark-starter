@@ -1,6 +1,7 @@
 {{#partial "content"}}
     {{#if username}}
         <h1>Welcome {{username}}!!</h1>
+        <p>View <a href="/tasks">all Tasks.</a></p>
     {{else}}
         <h1>Welcome Users!!</h1>
         <form action="/sign-in" method="post">

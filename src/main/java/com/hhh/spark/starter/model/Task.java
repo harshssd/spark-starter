@@ -7,22 +7,15 @@ package com.hhh.spark.starter.model;
  */
 public class Task
 {
-    private String id;
     private String title;
     private String description;
     private String status;
 
-    public Task(String id, String title, String description, String status)
+    public Task(String title, String description, String status)
     {
-        this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
-    }
-
-    public String getId()
-    {
-        return id;
     }
 
     public String getTitle()
@@ -48,7 +41,6 @@ public class Task
 
         Task task = (Task) o;
 
-        if (!id.equals(task.id)) return false;
         if (!title.equals(task.title)) return false;
         if (!description.equals(task.description)) return false;
         return status.equals(task.status);
@@ -58,8 +50,7 @@ public class Task
     @Override
     public int hashCode()
     {
-        int result = id.hashCode();
-        result = 31 * result + title.hashCode();
+        int result = title.hashCode();
         result = 31 * result + description.hashCode();
         result = 31 * result + status.hashCode();
         return result;
