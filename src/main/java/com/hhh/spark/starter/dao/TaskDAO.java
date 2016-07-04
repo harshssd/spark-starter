@@ -1,4 +1,6 @@
-package com.hhh.spark.starter.model;
+package com.hhh.spark.starter.dao;
+
+import com.hhh.spark.starter.models.Task;
 
 import java.util.List;
 

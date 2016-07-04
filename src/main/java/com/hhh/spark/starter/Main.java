@@ -1,9 +1,13 @@
 package com.hhh.spark.starter;
 
-import com.hhh.spark.starter.model.NotFoundException;
-import com.hhh.spark.starter.model.SimpleTaskDAO;
-import com.hhh.spark.starter.model.Task;
-import com.hhh.spark.starter.model.TaskDAO;
+import com.hhh.spark.starter.exceptions.NotFoundException;
+import com.hhh.spark.starter.dao.SimpleTaskDAO;
+import com.hhh.spark.starter.models.Task;
+import com.hhh.spark.starter.dao.TaskDAO;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -28,6 +32,17 @@ public class Main
 {
 
     private static final String FLASH_MESSAGE_KEY = "flash_message";
+
+    public static SessionFactory sessionFactory = buildSessionFactory();
+
+    private static SessionFactory buildSessionFactory()
+    {
+        // Create standard service registry
+        final ServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        return new MetadataSources(registry).buildMetadata().buildSessionFactory();
+    }
+
+
 
     public static void main(String[] args)
     {
